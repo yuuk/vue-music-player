@@ -1,16 +1,18 @@
 <template>
 	<div id="app">
-		<Header></Header>
+		<myHeader></myHeader>
+		<keep-alive>
 		<router-view/>
+		</keep-alive>
 	</div>
 </template>
 
 <script>
-import Header from '@/components/common/Header.vue';
+import myHeader from '@/components/common/Header.vue';
 export default {
 	name: 'app',
 	components: {
-		Header
+		myHeader
 	},
 	data () {
 		return {

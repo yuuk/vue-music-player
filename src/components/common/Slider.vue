@@ -2,6 +2,7 @@
 	.swiper-box {
 		width: 100%;
 		height: 100%;
+		min-height: 100px;
 		margin: 0 auto;
 		.swiper-pagination {
 			bottom: -5px;
@@ -13,12 +14,10 @@
 </style>
 
 <template>
-	<swiper :options="swiperOption" class="swiper-box">
-		<swiper-slide class="swiper-item"><a href="javascript:;"><img src="https://y.gtimg.cn/music/photo_new/T003R720x288M000003u5Edy3aOeE4.jpg?max_age=2592000&max_age=2592000"></a></swiper-slide>		
-		<swiper-slide class="swiper-item"><a href="javascript:;"><img src="https://y.gtimg.cn/music/photo_new/T003R720x288M000003p9s0f1PEmXL.jpg?max_age=2592000&max_age=2592000"></a></swiper-slide>
-		<swiper-slide class="swiper-item"><a href="javascript:;"><img src="https://y.gtimg.cn/music/photo_new/T003R720x288M000004JPXQz1yALn4.jpg?max_age=2592000&max_age=2592000"></a></swiper-slide>
+	 <swiper :options="swiperOption" class="swiper-box" v-if="sliderItem.length">
+		<swiper-slide class="swiper-item" v-for="(slide, index) in sliderItem" :key="index"><a :href="slide.linkUrl"><img :src="slide.picUrl"></a></swiper-slide>		
 		<div class="swiper-pagination" slot="pagination"></div>
-	</swiper>
+	</swiper> 
 </template>
 
 <script>
@@ -29,11 +28,17 @@ export default {
 		swiper,
 		swiperSlide
 	},
+	props: {
+		sliderItem: {
+			type: Array
+		}
+	},
 	data () {
 		return {
 			swiperOption: {
 				pagination: '.swiper-pagination',
 				loop: true,
+				autoplay : 3000,
 				paginationClickable: true
 			}
 		}
