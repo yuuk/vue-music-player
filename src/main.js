@@ -12,6 +12,12 @@ Vue.use(VueAwesomeSwiper)
 import axios from 'axios'
 Vue.prototype.$http = axios
 
+import VueJsonp from 'vue-jsonp'
+Vue.use(VueJsonp)
+
+import qs from 'qs'
+Vue.prototype.$qs = qs
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

@@ -10,7 +10,9 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "qs": "^6.5.1",
     "vue": "^2.5.2",
+    "vue-jsonp": "^0.1.6",
     "vue-router": "^3.0.1"
   },
   "devDependencies": {

@@ -30,7 +30,7 @@
 				}
 			}
 			.title {
-				margin-top: 15/100rem;padding-left: 15/100rem;padding-right: 15/100rem;height: auto;
+				margin-top: 15/100rem;padding-left: 15/100rem;padding-right: 15/100rem;height: 65/100rem;
 				overflow : hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;
 			}
 		}
@@ -41,13 +41,32 @@
 <template>
 	<section class="page-index">
 		<Slider :sliderItem="slider"></Slider>
+		
 		<div class="hot-list" v-if="songList.length">
 			<h6 class="header">热门歌单</h6>
 			<ul class="clearfix">
 				<li v-for="(item, index) in songList" :key="index" :data-id="item.id">
 					<a href="#">
-						<p class="cover"><img :src="item.picUrl"><span v-if="item.songListAuthor" class="author">{{item.songListAuthor}}</span></p>
+						<p class="cover">
+							<img :src="item.picUrl" :alt="item.songListDesc">
+							<span v-if="item.songListAuthor" class="author">{{item.songListAuthor}}</span>
+						</p>
 						<p class="title">{{item.songListDesc}}</p>
+					</a>
+				</li>
+			</ul>
+		</div>
+
+		<div class="hot-list" v-if="newSong.length">
+			<h6 class="header">新歌首发</h6>
+			<ul class="clearfix">
+				<li v-for="(item, index) in newSong" :key="index" :data-id="item.id">
+					<a href="#">
+						<p class="cover">
+							<img :src="getCover(item.album.mid)">
+							<span v-if="item.songListAuthor" class="author">{{item.songListAuthor}}</span>
+						</p>
+						<p class="title">{{item.title}}{{item.subtitle}}</p>
 					</a>
 				</li>
 			</ul>
@@ -65,11 +84,13 @@ export default {
 	data () {
 		return {
 			slider: [], // 轮播图数据
-			songList: []  // 热门歌单
+			songList: [],  // 热门歌单
+			newSong: []
 		}
 	},
 	mounted () {
 		this.getIndexData();
+		this.getNewSong();
 	},
 	methods: {
 		// 获取首页数据
@@ -93,6 +114,35 @@ export default {
 			}, response => {
 			    console.error(response)
 			});
+		},
+		// 获取新歌
+		getNewSong () {
+			let param = {
+				g_tk: "5381",
+				loginUin: "0",
+				hostUin: "0",
+				format: "jsonp",
+				inCharset: "utf8",
+				outCharset: "utf-8",
+				notice: "0",
+				platform: "yqq",
+				needNewCode: "0",
+				data: '{"comm":{"ct":24},"new_song":{"module":"QQMusic.MusichallServer","method":"GetNewSong","param":{"type":1}}}'
+			};
+
+			this.$jsonp('/pcApi/cgi-bin/musicu.fcg', param)
+			.then(json => {
+				if (json.code == 0) {
+					this.newSong = json.new_song.data.song_list.slice(0, 9)
+				} else {
+					console.error('接口错误')
+				}
+			}).catch(err => {
+				console.error(err)
+			})
+		},
+		getCover (mid) {
+			return `//y.gtimg.cn/music/photo_new/T002R150x150M000${mid}.jpg?max_age=2592000`
 		}
 	}
 }
