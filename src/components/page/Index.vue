@@ -40,11 +40,12 @@
 	.new-song {
 		li {margin-top: 25/100rem;box-sizing: border-box;padding: 0 25/100rem;}
 		.cover {
-			float: left;width: 150/100rem;height: 150/100rem;
+			float: left;width: 135/100rem;height: 135/100rem;
 			img {width: 100%;height: 100%;}
 		}
-		.info {float: left;width: (750-150-100)/100rem;margin-left: 25/100rem;}
-		.title {font-size: 26/100rem;}
+		.info {float: left;width: (750-135-75)/100rem;margin-left: 25/100rem;}
+		.title {font-size: 32/100rem;line-height: 1.5;}
+		.author {font-size: 28/100rem;color: #999;margin-top: 10/100rem;}
 	}
 </style>
 
@@ -75,7 +76,7 @@
 					<p class="cover"><img :src="getCover(item.album.mid)"></p>
 					<div class="info">
 						<p class="title">{{item.title}}{{item.subtitle}}</p>
-						<p class="author" v-if="item.songListAuthor">{{item.songListAuthor}}</p>
+						<p class="author">{{item.singer[0].title}}</p>
 					</div>					
 				</li>
 			</ul>
@@ -142,7 +143,7 @@ export default {
 			this.$jsonp('/pcApi/cgi-bin/musicu.fcg', param)
 			.then(json => {
 				if (json.code == 0) {
-					this.newSong = json.new_song.data.song_list.slice(0, 9)
+					this.newSong = json.new_song.data.song_list.slice(0, 5);
 				} else {
 					console.error('接口错误')
 				}
