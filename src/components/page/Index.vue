@@ -1,7 +1,9 @@
 <style lang="less">
+	.section-header {
+		font-size: 32/100rem;border-left: 3px solid #313638;padding-left: 15/100rem;
+	}
 	.hot-list {
 		margin-top: 30/100rem;
-		.header {font-size: 32/100rem;border-left: 3px solid #313638;padding-left: 15/100rem;}
 		ul {margin-top: 25/100rem;}
 		li {
 			float: left;font-size: 24/100rem;width: 246/100rem;margin-bottom: 40/100rem;
@@ -35,6 +37,15 @@
 			}
 		}
 	}
+	.new-song {
+		li {margin-top: 25/100rem;box-sizing: border-box;padding: 0 25/100rem;}
+		.cover {
+			float: left;width: 150/100rem;height: 150/100rem;
+			img {width: 100%;height: 100%;}
+		}
+		.info {float: left;width: (750-150-100)/100rem;margin-left: 25/100rem;}
+		.title {font-size: 26/100rem;}
+	}
 </style>
 
 
@@ -43,7 +54,7 @@
 		<Slider :sliderItem="slider"></Slider>
 		
 		<div class="hot-list" v-if="songList.length">
-			<h6 class="header">热门歌单</h6>
+			<h6 class="section-header">热门歌单</h6>
 			<ul class="clearfix">
 				<li v-for="(item, index) in songList" :key="index" :data-id="item.id">
 					<a href="#">
@@ -57,17 +68,15 @@
 			</ul>
 		</div>
 
-		<div class="hot-list" v-if="newSong.length">
-			<h6 class="header">新歌首发</h6>
-			<ul class="clearfix">
-				<li v-for="(item, index) in newSong" :key="index" :data-id="item.id">
-					<a href="#">
-						<p class="cover">
-							<img :src="getCover(item.album.mid)">
-							<span v-if="item.songListAuthor" class="author">{{item.songListAuthor}}</span>
-						</p>
+		<div class="new-song" v-if="newSong.length">
+			<h6 class="section-header">新歌首发</h6>
+			<ul>
+				<li class="clearfix" v-for="(item, index) in newSong" :key="index" :data-id="item.id">
+					<p class="cover"><img :src="getCover(item.album.mid)"></p>
+					<div class="info">
 						<p class="title">{{item.title}}{{item.subtitle}}</p>
-					</a>
+						<p class="author" v-if="item.songListAuthor">{{item.songListAuthor}}</p>
+					</div>					
 				</li>
 			</ul>
 		</div>
