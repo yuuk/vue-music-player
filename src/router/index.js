@@ -1,7 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Index from '@/components/page/Index.vue'
-import Singer from '@/components/page/Singer.vue'
 
 Vue.use(Router)
 
@@ -10,12 +8,16 @@ export default new Router({
 		{
 			path: '/',
 			name: 'Index',
-			component: Index
+			component (resolve) {
+				return require(['@/components/page/Index.vue'], resolve);
+			}
 		},
 		{
 			path: '/singer',
 			name: 'Singer',
-			component: Singer
+			component (resolve) {
+				return require(['@/components/page/Singer.vue'], resolve);
+			}
 		}
 	]
 })
