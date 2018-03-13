@@ -11,12 +11,23 @@ export default new Router({
 			component (resolve) {
 				return require(['@/components/page/Index.vue'], resolve);
 			}
-		},
-		{
-			path: '/singer',
-			name: 'Singer',
+		},{
+			path: '/playlist/:id',
+			name: 'Playlist',
 			component (resolve) {
-				return require(['@/components/page/Singer.vue'], resolve);
+				return require(['@/components/page/Playlist.vue'], resolve);
+			}
+		},{
+			path: '/comment/:type/:id',
+			name: 'Comment',
+			component (resolve) {
+				return require(['@/components/page/Comment.vue'], resolve);
+			}
+		},{
+			path: '/song/:id',
+			name: 'Song',
+			component (resolve) {
+				return require(['@/components/page/Player.vue'], resolve);
 			}
 		}
 	]

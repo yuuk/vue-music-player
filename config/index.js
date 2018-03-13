@@ -33,17 +33,10 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
         '/api/': {
-            target: 'http://c.y.qq.com',
+            target: 'http://localhost:9999',
             changeOrigin: true,
             pathRewrite: {
-                '^/api': '/'
-            }
-        },
-        '/pcApi/': {
-            target: 'http://u.y.qq.com',
-            changeOrigin: true,
-            pathRewrite: {
-                '^/pcApi': '/'
+                '^/api': 'http://localhost:9999'
             }
         }
     },

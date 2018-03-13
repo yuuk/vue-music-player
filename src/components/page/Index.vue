@@ -1,12 +1,12 @@
 <style lang="less">
 	.section-header {
-		font-size: 32/100rem;border-left: 3px solid #313638;padding-left: 15/100rem;
+		font-size: 36/100rem;border-left: 3px solid #313638;padding-left: 15/100rem;
 	}
 	.hot-list {
-		margin-top: 30/100rem;
-		ul {margin-top: 25/100rem;}
+		margin-top: 35/100rem;
+		ul {margin-top: 30/100rem;}
 		li {
-			float: left;font-size: 24/100rem;width: 246/100rem;margin-bottom: 40/100rem;
+			float: left;font-size: 24/100rem;width: 246/100rem;margin-bottom: 30/100rem;
 			&:nth-child(3n-1) {margin-left: 6/100rem;margin-right: 6/100rem;}
 			a {color: #313638;}
 			.cover {
@@ -38,121 +38,101 @@
 		}
 	}
 	.new-song {
-		li {margin-top: 25/100rem;box-sizing: border-box;padding: 0 25/100rem;}
-		.cover {
-			float: left;width: 135/100rem;height: 135/100rem;
-			img {width: 100%;height: 100%;}
-		}
-		.info {float: left;width: (750-135-75)/100rem;margin-left: 25/100rem;}
-		.title {font-size: 32/100rem;line-height: 1.5;}
-		.author {font-size: 28/100rem;color: #999;margin-top: 10/100rem;}
+		margin-top: 10/100rem;
+		.songlist {margin-top: 15/100rem;}
 	}
 </style>
 
 
 <template>
 	<section class="page-index">
-		<Slider :sliderItem="slider"></Slider>
-		
+		<myHeader></myHeader>
+		<Slider :sliderItem="banners"></Slider>
 		<div class="hot-list" v-if="songList.length">
-			<h6 class="section-header">热门歌单</h6>
+			<h6 class="section-header">推荐歌单</h6>
 			<ul class="clearfix">
 				<li v-for="(item, index) in songList" :key="index" :data-id="item.id">
-					<a href="#">
+					<router-link :to="`/playlist/${item.id}`">
 						<p class="cover">
-							<img :src="item.picUrl" :alt="item.songListDesc">
-							<span v-if="item.songListAuthor" class="author">{{item.songListAuthor}}</span>
+							<img :src="item.picUrl" :alt="item.name">
+							<span v-if="item.playCount" class="author">{{item.playCount}}</span>
 						</p>
-						<p class="title">{{item.songListDesc}}</p>
-					</a>
+						<p class="title">{{item.name}}</p>
+					</router-link>
 				</li>
 			</ul>
 		</div>
 
 		<div class="new-song" v-if="newSong.length">
-			<h6 class="section-header">新歌首发</h6>
-			<ul>
-				<li class="clearfix" v-for="(item, index) in newSong" :key="index" :data-id="item.id">
-					<p class="cover"><img :src="getCover(item.album.mid)"></p>
-					<div class="info">
-						<p class="title">{{item.title}}{{item.subtitle}}</p>
-						<p class="author">{{item.singer[0].title}}</p>
-					</div>					
-				</li>
-			</ul>
+			<h6 class="section-header">最新音乐</h6>
+			<Song :songList="newSong"></Song>
 		</div>
+
 	</section>
 </template>
 
 <script>
-import Slider from '@/components/common/Slider.vue';
+import myHeader from '@/components/common/Header.vue'
+import Slider from '@/components/common/Slider.vue'
+import Song from '@/components/common/Song.vue'
 export default {
 	name: 'index',
 	components: {
-		Slider
+		myHeader,
+		Slider,
+		Song
 	},
 	data () {
 		return {
-			slider: [], // 轮播图数据
+			banners: [], // 轮播图数据
 			songList: [],  // 热门歌单
-			newSong: []
+			newSong: [] // 新歌
 		}
 	},
 	mounted () {
-		this.getIndexData();
+		this.getBanner();
+		this.getSongList();
 		this.getNewSong();
 	},
 	methods: {
-		// 获取首页数据
-		getIndexData () {
-			this.$http.get('/api/musichall/fcgi-bin/fcg_yqqhomepagerecommend.fcg', {
-				params: {
-					g_tk: '5381',
-					uin: '0',
-					format: 'json',
-					inCharset: 'utf-8',
-					outCharset: 'utf-8',
-					notice: '0',
-					platform: 'h5',
-					needNewCode: '1',
-					t: Date.now()
+		// 获取banner数据
+		getBanner () {
+			this.$http({
+				method:'get',
+				url:'/api/banner'
+			})
+			.then(response => {
+				const json = response.data;
+				if (json.code == 200) {
+					this.banners = json.banners;
 				}
-			}).then(result => {
-				let json = result.data.data;
-				this.slider = json.slider;
-				this.songList = json.songList
-			}, response => {
-			    console.error(response)
+			});
+		},
+		// 获取推荐歌单
+		getSongList () {
+			this.$http({
+				method:'get',
+				url:'/api/personalized'
+			})
+			.then(response => {
+				const json = response.data;
+				if (json.code == 200) {
+					this.songList = json.result.slice(0, 6);
+				}
 			});
 		},
 		// 获取新歌
 		getNewSong () {
-			let param = {
-				g_tk: "5381",
-				loginUin: "0",
-				hostUin: "0",
-				format: "jsonp",
-				inCharset: "utf8",
-				outCharset: "utf-8",
-				notice: "0",
-				platform: "yqq",
-				needNewCode: "0",
-				data: '{"comm":{"ct":24},"new_song":{"module":"QQMusic.MusichallServer","method":"GetNewSong","param":{"type":1}}}'
-			};
-
-			this.$jsonp('/pcApi/cgi-bin/musicu.fcg', param)
-			.then(json => {
-				if (json.code == 0) {
-					this.newSong = json.new_song.data.song_list.slice(0, 5);
-				} else {
-					console.error('接口错误')
-				}
-			}).catch(err => {
-				console.error(err)
+			this.$http({
+				method:'get',
+				url:'/api/personalized/newsong'
 			})
-		},
-		getCover (mid) {
-			return `//y.gtimg.cn/music/photo_new/T002R150x150M000${mid}.jpg?max_age=2592000`
+			.then(response => {
+				const json = response.data;
+				if (json.code == 200) {
+					this.newSong = json.result;
+				}
+			});
 		}
 	}
 }
