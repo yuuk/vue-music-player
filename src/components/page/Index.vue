@@ -32,7 +32,7 @@
 				}
 			}
 			.title {
-				margin-top: 15/100rem;padding-left: 15/100rem;padding-right: 15/100rem;max-height: 65/100rem;
+				margin-top: 15/100rem;padding-left: 15/100rem;padding-right: 15/100rem;height: 60/100rem;
 				overflow : hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;
 			}
 		}

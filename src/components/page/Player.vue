@@ -298,7 +298,7 @@ export default {
             this.isLoading = true;
             return new Promise((resolve, reject) => {
                 this.$http({
-                    timeout: 3000,
+                    timeout: 5000,
                     method:'get',
                     url: '/api/music/url',
                     params: {
@@ -453,11 +453,11 @@ export default {
         // 播放列表移除单个歌曲的时候
         onDelSong ({song, index}) {
             store.commit('delMusicList', index); // 更新vuex
-            this.updatePlayIndex(); // 更新索引
             //  删除的是正在播放的音乐，则播放下一曲
             if (this.musicInfo.id === song.id) {
-                this.swichMusic(1);
+                this.swichMusic(0);
             }
+            this.updatePlayIndex(); // 更新索引
         },
         // 播放列表清空歌曲的时候
         onClearSong () {
