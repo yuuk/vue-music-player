@@ -1,6 +1,6 @@
 # vue-music-player
 
-> A Vue.js project
+> 基于Vue开发的仿网易云音乐的播放器webapp
 
 ## Build Setup
 
@@ -8,7 +8,7 @@
 # install dependencies
 npm install
 
-# serve with hot reload at localhost:8080
+# serve with hot reload at localhost:1234
 npm run dev
 
 # build for production with minification
