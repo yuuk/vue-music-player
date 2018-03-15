@@ -32,7 +32,7 @@
 				}
 			}
 			.title {
-				margin-top: 15/100rem;padding-left: 15/100rem;padding-right: 15/100rem;height: 65/100rem;
+				margin-top: 15/100rem;padding-left: 15/100rem;padding-right: 15/100rem;max-height: 65/100rem;
 				overflow : hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;
 			}
 		}
@@ -67,7 +67,6 @@
 			<h6 class="section-header">最新音乐</h6>
 			<Song :songList="newSong"></Song>
 		</div>
-
 	</section>
 </template>
 
@@ -130,8 +129,13 @@ export default {
 			.then(response => {
 				const json = response.data;
 				if (json.code == 200) {
-					this.newSong = json.result;
+					this.newSong = this.formatNewsong(json.result);
 				}
+			});
+		},
+		formatNewsong (newSong) {
+			return newSong.map(item => {
+				return item.song
 			});
 		}
 	}

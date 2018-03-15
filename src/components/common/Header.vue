@@ -5,13 +5,9 @@
 			display: flex; justify-content: center;align-items: center;
 		}
 		.user-btn {
-			display: block;position: absolute;width: 48/100rem;height: 48/100rem;
-			top: 50%;left: 30/100rem;margin-top: -24/100rem;
-			i {
-				display: block;width: 100%;height: 100%;
-				background: url('../../assets/img/icon-user.png') no-repeat 0 0;
-				background-size: 100%; 
-			}
+			display: block;position: absolute;width: 40/100rem;height: 46/100rem;
+			top: 50%;left: 30/100rem;margin-top: -23/100rem;
+			color: #fff;font-size: 40/100rem;
 		}
 		.music-btn {
 			display: block;position: absolute;width: 48/100rem;height: 48/100rem;
@@ -24,12 +20,7 @@
 		}
 		.search {
 			background-color: #fff;width: 535/100rem;height: 60/100rem;border-radius: 100px;position: relative;
-			&:after {
-				content: '';position: absolute;z-index: 2;left: 48/100rem;top: 18/100rem;
-				width: 25/100rem;height: 25/100rem;display: block;
-				background: url('../../assets/img/icon-search.png') no-repeat 0 0;
-				background-size: 100%; 
-			}
+			i {position: absolute;color: #666;z-index: 1;font-size: 30/100rem;left: 50/100rem;top: 50%;margin-top: -15/100rem;}
 			input {
 				position: absolute;top: 0;left: 0;border: 0;height: 100%;border-radius: 100px;
 				padding: 0 90/100rem;width: 100%;box-sizing: border-box;font-size: 24/100rem;
@@ -58,9 +49,12 @@
 <template>
 	<header class="page-header">
 		<div class="top">
-			<a href="#" class="user-btn"><i></i></a>
-			<p class="search"><input type="text" placeholder="搜索音乐"></p>
-			<a href="#" class="music-btn"><i></i></a>
+			<i class="iconfont icon-user user-btn"></i>
+			<p class="search">
+				<i class="iconfont icon-search"></i>
+				<input type="text" placeholder="搜索音乐">
+			</p>
+			<router-link :to="`player/`" class="music-btn"><i></i></router-link>
 		</div>
 		<nav class="nav">
 			<ul class="clearfix">
@@ -75,7 +69,7 @@
 		data () {
 			return {
 				nav: [{
-					'name': '首页',
+					'name': '发现音乐',
 					'path': '/'
 				},{
 					'name': '歌单',

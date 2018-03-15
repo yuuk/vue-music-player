@@ -24,7 +24,7 @@
 </style>
 
 <template>
-	<div v-if="formatInfo.name && commentInfo.total">
+	<div v-if="info.name && commentInfo.total">
 		<div class="comment-top">
 			<i class="back-arrow iconfont icon-arrow" @click="goBack"></i>
             <p class="title">评论 ({{commentInfo.total}})</p>
@@ -51,6 +51,7 @@
 			</div>
 		</section>
 	</div>
+	<div class="page-loading" v-else><i class="loading-gif"></i></div>
 </template>
 
 <script>
@@ -65,7 +66,7 @@ export default {
 	},
 	components: {
 		commentList
-    },
+	},
 	computed: {
 		commentType () {
 			return this.$route.params.type
@@ -74,7 +75,7 @@ export default {
 			return this.$route.params.id
 		},
 		commentUrl () {
-			return `/api/comment/${this.commentType}?id=${this.commentId}`
+			return `/api/comment/${this.commentType}?id=${this.commentId}`;
 		},
 		infoUrl () {
 			let url = '';
@@ -85,11 +86,20 @@ export default {
 			}
 			return url;
 		},
+		// 头部信息格式化（兼容歌单和歌曲）
 		formatInfo () {
-			const cover = this.info.coverImgUrl;
-			const type = this.commentType == 'playlist' ? '歌单' : '歌曲';
-			const name = this.info.name;
-			const user = this.info.creator && this.info.creator.nickname;
+			let cover, type, name, user;
+			if (this.commentType == 'playlist') {
+				cover = this.info.coverImgUrl;
+				type = '歌单';
+				name = this.info.name;
+				user = this.info.creator.nickname;
+			} else {
+				cover = this.info.al.picUrl;
+				type = '歌曲';
+				name = this.info.name;
+				user = this.singerArr2singerStr(this.info.ar);
+			}
 			return {
 				cover,
 				type,
@@ -127,11 +137,17 @@ export default {
 			.then(response => {
                 const json = response.data;
                 if (json.code == 200) {
-                    this.info = json.result;
+                    this.info = json.result || json.songs[0];
                 } else {
                     alert(json.msg);
                 }
 			});
+		},
+		singerArr2singerStr (arr) {
+            const str = arr.map(item => {
+                return item.name
+            }).join('/');
+            return `${str}`;
 		},
 		// 返回上页
         goBack () {
@@ -139,9 +155,8 @@ export default {
 		},
 		// 回到详情页
 		goDetail () {
-			if (this.commentType == 'playlist') { // 歌单
-				this.$router.push({ name: 'Playlist', params: { id: this.commentId }})
-			}
+			let name = this.commentType == 'playlist' ? 'Playlist' : 'Player';
+			this.$router.push({ name: name, params: {id: this.commentId} })
 		}
 	}
 }

@@ -24,8 +24,8 @@ export default new Router({
 				return require(['@/components/page/Comment.vue'], resolve);
 			}
 		},{
-			path: '/song/:id',
-			name: 'Song',
+			path: '/player/',
+			name: 'Player',
 			component (resolve) {
 				return require(['@/components/page/Player.vue'], resolve);
 			}
