@@ -13,20 +13,6 @@
 			.cover {
 				position: relative;
 				img {width: 100%;height: 100%;}
-				.author {
-					position: absolute;left: 0;bottom: 0;color: #fff;font-size: 12px;line-height: 1;
-					padding: 5/100rem 10/100rem;display: none;
-					background: #000;
-					background: -moz-linear-gradient(left,  rgba(0,0,0,1) 0%, rgba(0,0,0,0.55) 100%);
-					background: -webkit-linear-gradient(left,  rgba(0,0,0,1) 0%,rgba(0,0,0,0.55) 100%);
-					background: linear-gradient(to right,  rgba(0,0,0,1) 0%,rgba(0,0,0,0.55) 100%);
-					filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#8c000000',GradientType=1 );
-
-					&:before {
-						content: '';width: 40/100rem;height: 40/100rem;display: inline-block;vertical-align: -3px;
-						background: url('../../assets/img/icon-user.png') no-repeat 0 0;background-size: 100% auto;
-					}
-				}
 				&:before {
 					content: '';position: absolute;right: 10/100rem;bottom: 10/100rem;width: 40/100rem;height: 40/100rem;
 					background: url('../../assets/img/icon-list-play.png') no-repeat 0 0;background-size: 100% auto;
@@ -82,7 +68,6 @@
 					<router-link :to="`/playlist/${item.id}`">
 						<p class="cover">
 							<img :src="item.picUrl" :alt="item.name">
-							<span v-if="item.playCount" class="author">{{item.playCount}}</span>
 						</p>
 						<p class="title">{{item.name}}</p>
 					</router-link>
