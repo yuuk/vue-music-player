@@ -24,7 +24,7 @@
 </p>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/yuuk/vue-music-player/master/screenshoot/%E6%92%AD%E6%94%BE%E7%95%8C%E9%9D%A2.jpg"/>
+  <img src="https://raw.githubusercontent.com/yuuk/vue-music-player/master/screenshoot/%E6%92%AD%E6%94%BE%E5%88%97%E8%A1%A8.jpg"/>
   <br/>
   播放列表
 </p>
