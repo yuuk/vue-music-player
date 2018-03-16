@@ -47,6 +47,12 @@
 - [X] MV播放
 - [ ] mini播放器
 
+## 项目接口
+
+基于【NeteaseCloudMusicApi】使用方法请遵循该项目文档
+
+https://github.com/Binaryify/NeteaseCloudMusicApi
+
 ## Build Setup
 
 ``` bash
