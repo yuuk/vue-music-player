@@ -14,7 +14,7 @@
 
 <p align="center">
   <b>一款基于vue-cli的音乐播放器webapp，界面灵感来源网易云音乐ios版，根据实际情况修改过部分样式~</b></br>
-  <sub>技术栈：vue router、vuex、axios、ES6<sub>
+  <sub>技术栈：vue、vue router、vuex、axios、ES6、iconfont<sub>
 </p>
  
 <p align="center">
