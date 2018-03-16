@@ -1,14 +1,10 @@
 <h1 align="center"><img width="100" src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=4256601263,817656986&fm=27&gp=0.jpg" /><br> Vue Music player</h1>
 
 <p align="center">
-  <a href="https://github.com/kamranahmedse/driver.js/blob/master/license">
-    <img src="https://img.shields.io/badge/License-MIT-yellow.svg" />
-  </a>
-  <a href="https://npmjs.org/package/driver.js">
-    <img src="https://badge.fury.io/js/driver.js.svg" alt="version" />
-  </a>
-  <a href="http://twitter.com/kamranahmedse">
-    <img src="https://img.shields.io/badge/author-kamranahmedse-blue.svg" />
+  <img src="https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square" />
+  <img src="https://img.shields.io/github/issues/yuuk/vue-music-player.svg?style=flat-square" />
+  <a href="http://www.430115.com">
+    <img src="https://img.shields.io/badge/author-yuuk-blue.svg?style=flat-square" />
   </a>
 </p>
 
