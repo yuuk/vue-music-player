@@ -1,25 +1,36 @@
 <style lang="less">
-	.progress-bar {
-		position: relative;width: 530/100rem;height: 4/100rem;background: rgba(255,255,255, .2);margin: auto;border-radius: 2px;
-		&-ball {
-			position: absolute;left: 0;top: 50%;margin-top: -14/100rem;
+    .progress-bar {
+        padding: 20/100rem 0;width: 530/100rem;margin: auto;
+        &-inner {
+            position: relative;width: 100%;height: 4/100rem;background: rgba(255,255,255, .2);border-radius: 2px;
+        
+        }	
+         &-ballwrap {
+            position: absolute;left: 0;top: 50%;margin-top: -28/100rem;width: 56/100rem;height: 56/100rem;
+        }
+        &-ball {
+			position: absolute;left: 0;top: 0;bottom: 0;margin: auto;
 			width: 28/100rem;height: 28/100rem;background: #d33a31;border-radius: 100px;
         }
         &-line, &-buffer {position: absolute;width: 0;height: 100%;border-radius: 2px;}
         &-line {background: #d33a31;}
         &-buffer {background: rgba(255,255,255, .3);z-index: -1;}
-	}	
+    }
 </style>
 
 <template>
 	<div class="progress-bar" ref="progressBar" @click="progressClick">
-	    <p class="progress-bar-ball"
-            ref="progressBtn"
-            @touchstart.prevent="progressTouchStart"
-            @touchmove.prevent="progressTouchMove"
-            @touchend="progressTouchEnd"></p>
-		<p class="progress-bar-line" ref="progress"></p>
-        <p class="progress-bar-buffer" :style="{'width': `${buffer}%`}"></p>
+        <div class="progress-bar-inner">
+            <div class="progress-bar-ballwrap"
+                ref="progressBtn"
+                @touchstart.prevent="progressTouchStart"
+                @touchmove.prevent="progressTouchMove"
+                @touchend="progressTouchEnd">
+                <p class="progress-bar-ball"></p>
+            </div>
+            <p class="progress-bar-line" ref="progress"></p>
+            <p class="progress-bar-buffer" :style="{'width': `${buffer}%`}"></p>
+        </div>
 	</div>
 </template>
 
@@ -43,7 +54,7 @@ export default {
         }
     },
     mounted () {
-        this.progressBtnWidth = this.$refs.progressBtn.clientWidth;
+        this.progressBtnWidth = this.$refs.progressBtn.querySelector('.progress-bar-ball').clientWidth;
     },
     methods: {
         progressTouchStart (e) {

@@ -1,4 +1,5 @@
 <style lang="less">
+	@import url('../../assets/css/util.less');
 	.section-header {
 		font-size: 36/100rem;border-left: 3px solid #313638;padding-left: 15/100rem;
 	}
@@ -32,14 +33,40 @@
 				}
 			}
 			.title {
-				margin-top: 15/100rem;padding-left: 15/100rem;padding-right: 15/100rem;height: 60/100rem;
-				overflow : hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;
+				.text-overflow-mutil;
+				margin-top: 15/100rem;padding-left: 15/100rem;padding-right: 15/100rem;height: 70/100rem;
+				
 			}
 		}
 	}
 	.new-song {
 		margin-top: 10/100rem;
 		.songlist {margin-top: 15/100rem;}
+	}
+	.recommend-mv {
+		margin-top: 35/100rem;overflow: hidden;
+		li {
+			width: 50%;float: left;padding-top: 35/100rem;
+			&:nth-child(odd) {
+				padding-right: 5/100rem;;
+			}
+			&:nth-child(even) {
+				padding-left: 5/100rem;;
+			}
+		}
+		.img {
+			width: 100%;height: auto;position: relative;overflow: hidden;
+			.iconfont {
+				text-shadow: 1px 0 0 rgba(0, 0, 0, 0.15);
+				position: absolute;left: 15/100rem;top: 15/100rem;color: #fff;z-index: 2;font-size: 40/100rem;
+			}
+			img {width: 100%;height: auto;}
+		}
+		.title {
+			line-height: 1.5;color: #313638;
+			font-size: 28/100rem;margin-top: 15/100rem;padding: 0 10/100rem;height: 78/100rem;
+			.text-overflow-mutil;
+		}
 	}
 </style>
 
@@ -67,6 +94,18 @@
 			<h6 class="section-header">最新音乐</h6>
 			<Song :songList="newSong"></Song>
 		</div>
+		
+		<div class="recommend-mv" v-if="mvList.length">
+			<h6 class="section-header">热门MV</h6>
+			<ul class="clearfix">
+				<li v-for="(item, index) in mvList" :key="index">
+					<router-link :to="`/mv/${item.id}`">
+					<p class="img"><img :src="item.cover" alt=""><i class="iconfont icon-socialyoutubeoutline"></i></p>
+					<p class="title">{{item.name}}</p>
+					</router-link>
+				</li>
+			</ul>
+		</div>
 	</section>
 </template>
 
@@ -85,6 +124,7 @@ export default {
 		return {
 			banners: [], // 轮播图数据
 			songList: [],  // 热门歌单
+			mvList: [], // 推荐mv
 			newSong: [] // 新歌
 		}
 	},
@@ -92,6 +132,7 @@ export default {
 		this.getBanner();
 		this.getSongList();
 		this.getNewSong();
+		this.getMvList();
 	},
 	methods: {
 		// 获取banner数据
@@ -130,6 +171,22 @@ export default {
 				const json = response.data;
 				if (json.code == 200) {
 					this.newSong = this.formatNewsong(json.result);
+				}
+			});
+		},
+		// 获取热门mv
+		getMvList () {
+			this.$http({
+				method:'get',
+				url:'/api/top/mv',
+				params: {
+					limit: 4
+				}
+			})
+			.then(response => {
+				const json = response.data;
+				if (json.code == 200) {
+					this.mvList = json.data;
 				}
 			});
 		},

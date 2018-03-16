@@ -1,9 +1,12 @@
 <style lang="less">
 	.music-list {
-		position: fixed;width: 100%;left: 0;bottom: 0;z-index: 10;overflow: hidden;
-		&:after {
-			content: '';background:#fff;opacity: .95;
-			position: absolute;z-index: -1;left: 0;top: 0;right: 0;bottom: 0;margin: auto;
+		position: fixed;width: 100%;height: 100%;left: 0;bottom: 0;z-index: 5;overflow: hidden;
+		&-mask {position: absolute;left: 0;top: 0;right: 0;bottom: 0;z-index: 1;}
+		&-wrap {
+			position: absolute;left: 0;bottom: 0;z-index: 2;width: 100%;
+			&:after {
+				content: '';position: absolute;z-index: -1;left: 0;top: 0;right: 0;bottom: 0;margin: auto;background:#fff;opacity: .95;
+			}
 		}
 		&-header {
 			height: 100/100rem;line-height: 100/100rem;padding: 0 20/100rem;font-size: 30/100rem;border-bottom: .5px solid #cfc5c0;
@@ -40,24 +43,28 @@
 
 <template>
 	<section class="music-list">
-		<header class="music-list-header clearfix">
-			<i class="iconfont icon-delete fr" @click="clearSong"></i>
-			<p class="play-mode fl" @click="switchPlayMode"><i class="iconfont" :class="[playModeInfo.cls]"></i>{{playModeInfo.text}} <em v-if="playModeInfo.mode!=1">({{musicList.length}}首)</em></p>
-		</header>
-		<div class="music-list-body" ref="musicListRef">
-			<ul v-if="musicList.length">
-				<li v-for="(song, index) in musicList" :key="index" :class="{'active': playIndex == index}">
-					<p class="text-overflow" @click="playSong(song, index)"><i class="iconfont icon-shengyin" v-if="playIndex == index"></i>{{song.name}} - <span>{{song.singers}}</span></p>
-					<i class="iconfont icon-close" @click="delSong(song, index)"></i> 
-				</li>
-			</ul>
-			<p class="empty" v-else>播放列表暂无歌曲！</p>
+		<p class="music-list-mask" @click.stop="closeList"></p>
+		<div class="music-list-wrap">
+			<header class="music-list-header clearfix">
+				<i class="iconfont icon-delete fr" @click="clearSong"></i>
+				<p class="play-mode fl" @click="switchPlayMode"><i class="iconfont" :class="[playModeInfo.cls]"></i>{{playModeInfo.text}} <em v-if="playModeInfo.mode!=1">({{musicList.length}}首)</em></p>
+			</header>
+			<div class="music-list-body" ref="musicListRef">
+				<ul v-if="musicList.length">
+					<li v-for="(song, index) in musicList" :key="index" :class="{'active': playIndex == index}">
+						<p class="text-overflow" @click="playSong(song, index)"><i class="iconfont icon-shengyin" v-if="playIndex == index"></i>{{song.name}} - <span>{{song.singers}}</span></p>
+						<i class="iconfont icon-close" @click="delSong(song, index)"></i> 
+					</li>
+				</ul>
+				<p class="empty" v-else>播放列表暂无歌曲！</p>
+			</div>
+			<footer class="music-list-footer"><a href="javascript:;" @click="closeList">关闭</a></footer>
 		</div>
-		<footer class="music-list-footer"><a href="javascript:;" @click="closeList">关闭</a></footer>
 	</section>
 </template>
 
 <script>
+import {mapState} from 'vuex'
 import store from '../../store'
 export default {
 	name: 'MusicList',
@@ -82,9 +89,9 @@ export default {
 
 	},
 	computed: {
-		musicList () {
-            return this.$store.state.musicList;
-        }
+		...mapState([
+            'musicList',
+        ])
 	},
 	watch: {
 		'isShow' (newVal) {
@@ -92,8 +99,10 @@ export default {
 			if (newVal) {
 				const musicListRef = this.$refs.musicListRef;
 				const activeLi = musicListRef.querySelector('li.active');
-				const diff = activeLi ? activeLi.clientHeight * 3 : 0;
-				musicListRef.scrollTop = activeLi.offsetTop - diff;
+				if (activeLi) {
+					const diff = activeLi.clientHeight * 3;
+					musicListRef.scrollTop = activeLi.offsetTop - diff;
+				}
 			}
 		}
 	},

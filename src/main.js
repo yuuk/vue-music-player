@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import axios from 'axios'
-import VueJsonp from 'vue-jsonp'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import App from './App'
 import router from './router'
@@ -11,7 +10,6 @@ require('./assets/css/reset.less')
 require('swiper/dist/css/swiper.css')
 
 Vue.use(VueAwesomeSwiper)
-Vue.use(VueJsonp)
 
 Vue.prototype.$http = axios
 Vue.config.productionTip = true

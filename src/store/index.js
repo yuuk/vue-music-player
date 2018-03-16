@@ -24,7 +24,6 @@ export default new Vuex.Store({
                     const id = song.id;
                     const name = song.name;
                     const cover = song.album.picUrl;
-                    const blurPic = song.album.blurPicUrl;
                     const singers = song.artists.map(item => {
                         return item.name;
                     }).join('/');
@@ -37,7 +36,6 @@ export default new Vuex.Store({
                             id,
                             name,
                             cover,
-                            blurPic,
                             singers 
                         });
                     }

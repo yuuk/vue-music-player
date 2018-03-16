@@ -116,10 +116,10 @@
                 <p class="title">歌单</p>
             </div>
             <div class="playlist-header-info clearfix">
-                <div class="cover">
+                <div class="cover" @click="toggleDetail(true)">
                     <img :src="detailInfo.coverImgUrl">
                     <i class="playcount i-earphone">{{detailInfo.playCount | formatNum}}</i>
-                    <i class="iconfont icon-informationicon i-desc" @click="toggleDetail(true)"></i>
+                    <i class="iconfont icon-informationicon i-desc"></i>
                 </div>
                 <div class="title">{{detailInfo.name}}</div>
                 <div class="userinfo clearfix">
@@ -157,15 +157,17 @@
             </div>
         </transition>
     </div>
-    <div class="page-loading" v-else><i class="loading-gif"></i></div>
+    <pageLoading v-else></pageLoading>
 </template>
 
 <script>
 import store from '../../store'
 import Song from '@/components/common/Song.vue'
+import pageLoading from '@/components/common/PageLoading.vue'
 export default {
     components: {
-		Song
+        Song,
+        pageLoading
 	},
     data () {
         return {

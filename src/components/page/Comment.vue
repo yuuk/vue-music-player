@@ -1,7 +1,7 @@
 <style lang="less">
 	.comment-top {
 		position: relative;height: 80/100rem;line-height: 80/100rem;text-align: center;background-color: #34393b;
-		.icon-arrow {color: #fff;font-size: 40/100rem;position: absolute;left: 20/100rem;top: 0;}
+		.icon-arrow {color: #fff;font-size: 38/100rem;position: absolute;left: 20/100rem;top: 0;}
 		.title {text-shadow: 1px 0 0 rgba(0,0,0,.15);font-size: 34/100rem;color: #fff;}
 	}
 	.comment-header {
@@ -24,7 +24,7 @@
 </style>
 
 <template>
-	<div v-if="info.name && commentInfo.total">
+	<div v-if="info.code == 200 && commentInfo.total">
 		<div class="comment-top">
 			<i class="back-arrow iconfont icon-arrow" @click="goBack"></i>
             <p class="title">评论 ({{commentInfo.total}})</p>
@@ -51,11 +51,12 @@
 			</div>
 		</section>
 	</div>
-	<div class="page-loading" v-else><i class="loading-gif"></i></div>
+	<pageLoading v-else></pageLoading>
 </template>
 
 <script>
 import commentList from '@/components/common/Comment.vue'
+import pageLoading from '@/components/common/PageLoading.vue'
 export default {
 	name: 'Comment',
 	data () {
@@ -65,7 +66,8 @@ export default {
 		}
 	},
 	components: {
-		commentList
+		commentList,
+		pageLoading
 	},
 	computed: {
 		commentType () {
@@ -79,26 +81,47 @@ export default {
 		},
 		infoUrl () {
 			let url = '';
-			if (this.commentType == 'playlist') {
-				url = `/api/playlist/detail?id=${this.commentId}`
-			} else {
-				url = `/api/song/detail?ids=${this.commentId}`
+			switch (this.commentType) {
+				case 'playlist':
+				url = `/api/playlist/detail?id=`
+				break;
+
+				case 'music':
+				url = `/api/song/detail?ids=`
+				break;
+
+				case 'mv':
+				url = `/api/mv?mvid=`
+				break;
+
 			}
-			return url;
+			return url + this.commentId;
 		},
 		// 头部信息格式化（兼容歌单和歌曲）
 		formatInfo () {
 			let cover, type, name, user;
-			if (this.commentType == 'playlist') {
-				cover = this.info.coverImgUrl;
+			switch (this.commentType) {
+				case 'playlist':
+				cover = this.info.result.coverImgUrl;
 				type = '歌单';
-				name = this.info.name;
-				user = this.info.creator.nickname;
-			} else {
-				cover = this.info.al.picUrl;
+				name = this.info.result.name;
+				user = this.info.result.creator.nickname;
+				break;
+
+				case 'music':
+				cover = this.info.songs[0].al.picUrl;
 				type = '歌曲';
-				name = this.info.name;
-				user = this.singerArr2singerStr(this.info.ar);
+				name = this.info.songs[0].name;
+				user = this.singerArr2singerStr(this.info.songs[0].ar);
+				break;
+
+				case 'mv':
+				cover = this.info.data.cover;
+				type = 'MV';
+				name = this.info.data.name;
+				user = this.singerArr2singerStr(this.info.data.artists);
+				break;
+
 			}
 			return {
 				cover,
@@ -124,7 +147,7 @@ export default {
                 if (json.code == 200) {
                     this.commentInfo = json;
                 } else {
-                    alert(json.msg);
+                    console.warn(json);
                 }
 			});
 		},
@@ -137,9 +160,9 @@ export default {
 			.then(response => {
                 const json = response.data;
                 if (json.code == 200) {
-                    this.info = json.result || json.songs[0];
+                    this.info = json;
                 } else {
-                    alert(json.msg);
+                    console.warn(json);
                 }
 			});
 		},
@@ -155,7 +178,20 @@ export default {
 		},
 		// 回到详情页
 		goDetail () {
-			let name = this.commentType == 'playlist' ? 'Playlist' : 'Player';
+			let name = '';
+			switch (this.commentType) {
+				case 'playlist':
+				name = `Playlist`
+				break;
+
+				case 'music':
+				name = `Player`
+				break;
+
+				case 'mv':
+				name = `Mv`
+				break;
+			}
 			this.$router.push({ name: name, params: {id: this.commentId} })
 		}
 	}

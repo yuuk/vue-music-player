@@ -19,9 +19,9 @@
     .player-main {
         min-height: 100%;overflow: hidden;
         &-bg {
-            background-position: 50%;background-repeat: no-repeat;background-size: auto 100%;
-            transition: opacity .3s linear;transform: scale(1.5);transform-origin: center top;
+            background-color: #eee;transition: opacity .3s linear;
             position: fixed;left: 0;right: 0;top: 0;height: 100%;overflow: hidden;z-index: -1;
+            img {transform: scale(2);transform-origin: center top;filter: blur(10px);}
             &:after {content: " ";bottom: 0;top: 0;left: 0;right: 0;background-color: rgba(0,0,0,.5);position: absolute; }
         }
         &-header {
@@ -57,10 +57,6 @@
                     z-index: 1;background: url(../../assets/img/disc-plus.png) no-repeat center center;background-size: contain;
                 }
             }
-            &.pause {
-                // .disc-tonearm {transform: rotate(-25deg);}
-                // .disc-panel{animation-play-state: paused;}
-            }
         }
         &-footer {position: fixed;width: 100%;bottom: 30/100rem;left: 0;z-index: 5;}
         &-tools {
@@ -91,7 +87,10 @@
 
 <template>
     <div class="player-main">
-        <p class="player-main-bg" :style="{backgroundImage: `url(${musicInfo.blurPicUrl})`}"></p>
+        <p class="player-main-bg">
+            <img :src="musicInfo.picUrlLoaded" v-if="musicInfo.picUrlLoaded">
+            <img src="../../assets/img/disc_default.png" v-else>
+        </p>
         <header class="player-main-header">
             <i class="back-arrow iconfont icon-arrow" @click="goBack"></i>
             <p class="title text-overflow">{{musicInfo.name}} <span class="singer">{{musicInfo.singers}}</span></p>
@@ -101,7 +100,10 @@
         <div class="player-main-disc">
             <div class="disc-tonearm"></div>
             <div class="disc-panel-wrap" ref="discWrapRef">
-                <div class="disc-panel" :class="{'animate': isPlaying}" ref="discPanelRef"><img :src="musicInfo.picUrl" alt=""></div>
+                <div class="disc-panel" :class="{'animate': isPlaying}" ref="discPanelRef">
+                    <img :src="musicInfo.picUrlLoaded" v-if="musicInfo.picUrlLoaded">
+                    <img src="../../assets/img/disc_default.png" v-else>
+                </div>
             </div>
         </div>
 
@@ -143,7 +145,8 @@
 
         <audio
             ref="audioRef"
-            preload @play="play" 
+            autoplay
+            @play="play" 
             @error="error" 
             @timeupdate="timeupdate"
             @progress="progress"
@@ -153,25 +156,12 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import store from '../../store'
+import { shuffle } from '../../assets/js/util'
 import MusicList from '@/components/common/MusicList.vue'
 import ProgressBar from '@/components/common/ProgressBar.vue'
-const defaultPic = require('../../assets/img/disc_default.png');
 
-function getRandomInt (min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min)
-}
-
-function shuffle (arr) {
-    let _arr = arr.slice()
-    for (let i = 0, len = _arr.length; i < len; i++) {
-    let j = getRandomInt(0, i)
-    let t = _arr[i]
-    _arr[i] = _arr[j]
-    _arr[j] = t
-    }
-    return _arr
-}
 
 export default {
     name: 'Player',
@@ -180,8 +170,8 @@ export default {
             musicInfo: {
                 id: '',
                 url: '',
-                picUrl: defaultPic,
-                blurPicUrl: '',
+                picUrl: '',
+                picUrlLoaded: '',
                 name: '暂无歌曲',
                 singers: '暂无歌手',
                 currentTime: '00:00', // 歌曲当前播放时间
@@ -221,12 +211,10 @@ export default {
         }
     },
     computed: {
-        musicList () {
-            return this.$store.state.musicList
-        },
-        playMode () {
-            return this.$store.state.playMode
-        },
+        ...mapState([
+            'musicList',
+            'playMode'
+        ]),
         // 播放模式信息 图标样式名 & 文字
         playModeInfo () {
             let cls = '';
@@ -266,6 +254,7 @@ export default {
            if (newVal === oldVal) {
                return;
            };
+           // 地址变化则播放音乐
             clearTimeout(this.timer);
             this.timer = setTimeout(() => {
                 const audioRef = this.$refs.audioRef;
@@ -291,6 +280,17 @@ export default {
                 this.isPlaying = false
             }
         },
+        'musicInfo.picUrl' (val, oldval) {
+            // 歌曲图片完全加载完成才显示
+            if (val) {
+                this.musicInfo.picUrlLoaded = '';
+                let img = new Image();
+                img.onload = () =>{
+                    this.musicInfo.picUrlLoaded = val;
+                };
+                img.src = val;
+            }
+        }
     },
     methods: {
         // 获取歌曲地址
@@ -430,7 +430,6 @@ export default {
             .then(json => {
                 this.musicInfo.name = song.name;
                 this.musicInfo.singers = song.singers;
-                this.musicInfo.blurPicUrl = song.blurPic;
                 this.musicInfo.picUrl = song.cover;
                 this.musicInfo.url = json.url;
             })
@@ -466,7 +465,7 @@ export default {
             }
         },
         // 切换上一曲/下一曲 (-1 => 上一曲  1 => 下一曲)
-        swichMusic (type) {
+        swichMusic (type=0) {
             // 随机播放
             if (this.playMode === 2) {
                  this.shufflePlay();
