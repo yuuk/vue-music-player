@@ -16,11 +16,18 @@
   <b>一款基于vue-cli的音乐播放器webapp，界面灵感来源网易云音乐ios版，根据实际情况修改过部分样式~</b></br>
   <sub>技术栈：vue router、vuex、axios、ES6<sub>
 </p>
-  
+ 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/yuuk/vue-music-player/master/screenshoot/%E6%92%AD%E6%94%BE%E7%95%8C%E9%9D%A2.jpg"/>
+  <br/>
+  播放界面
+</p>
 
-![播放界面](https://raw.githubusercontent.com/yuuk/vue-music-player/master/screenshoot/%E6%92%AD%E6%94%BE%E7%95%8C%E9%9D%A2.jpg)
-<br> 播放界面
-
+<p align="center">
+  <img src="https://raw.githubusercontent.com/yuuk/vue-music-player/master/screenshoot/%E6%92%AD%E6%94%BE%E7%95%8C%E9%9D%A2.jpg"/>
+  <br/>
+  播放列表
+</p>
 
 ## Todo
 
