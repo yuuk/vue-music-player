@@ -29,11 +29,26 @@
   播放列表
 </p>
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/yuuk/vue-music-player/master/screenshoot/%E6%AD%8C%E5%8D%95%E5%88%97%E8%A1%A8.jpg"/>
+  <br/>
+  歌单列表
+</p>
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/yuuk/vue-music-player/master/screenshoot/%E6%AD%8C%E5%8D%95%E4%BB%8B%E7%BB%8D.jpg"/>
+  <br/>
+  歌单介绍
+</p>
+
 ## Todo
 
 - [X] 播放功能
 - [X] 播放模式（列表循环、单曲轮播、随机播放） 
 - [X] 本地存储播放数据
+- [X] 歌单
+- [X] 评论列表（歌单、歌曲、MV）
+- [X] MV播放
 - [ ] mini播放器
 
 ## Build Setup
