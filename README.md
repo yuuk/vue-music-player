@@ -38,7 +38,6 @@
 </p>
 
 ## Todo
-
 - [X] 播放功能
 - [X] 播放模式（列表循环、单曲轮播、随机播放） 
 - [X] 本地存储播放数据
@@ -48,9 +47,7 @@
 - [ ] mini播放器
 
 ## 项目接口
-
 基于【NeteaseCloudMusicApi】使用方法请遵循该项目文档
-
 https://github.com/Binaryify/NeteaseCloudMusicApi
 
 ## 已知问题
@@ -58,7 +55,6 @@ https://github.com/Binaryify/NeteaseCloudMusicApi
 2. IOS端无法播放视频，不知道是否与.MP4格式有关
 
 ## 安装&运行
-
 ``` bash
 # 下载项目到本地
 git clone https://github.com/yuuk/vue-music-player.git
