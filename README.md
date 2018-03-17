@@ -54,8 +54,8 @@
 https://github.com/Binaryify/NeteaseCloudMusicApi
 
 ## 已知问题
-1、手机端无法自动播放音乐
-2、IOS端无法播放视频，不知道是否与.MP4格式有关
+1. 手机端无法自动播放音乐
+2. IOS端无法播放视频，不知道是否与.MP4格式有关
 
 ## Build Setup
 
