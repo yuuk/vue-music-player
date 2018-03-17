@@ -165,7 +165,7 @@ export default {
 				method:'get',
 				url:'/api/top/mv',
 				params: {
-					limit: 4
+					limit: 6
 				}
 			})
 			.then(response => {

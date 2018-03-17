@@ -36,11 +36,20 @@
 - [X] 本地存储播放数据
 - [ ] mini播放器
 
-## Build Setup
+## 安装&运行
 
 ``` bash
-# install dependencies
+# 下载项目到本地
+git clone https://github.com/yuuk/vue-music-player.git
+
+# 进入项目文件夹
+cd vue-music-player
+
+# 安装依赖
 npm install
 
-# serve with hot reload at localhost:1234
+# 运行项目 
 npm run dev
+
+#访问
+localhost:1234

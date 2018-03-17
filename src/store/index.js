@@ -13,11 +13,11 @@ export default new Vuex.Store({
 		addMusicList (state, param) {
             const musicList = state.musicList;
             const songData = param.data;
-            let fnKey = 'unshift';
-            // 如果添加的是歌单，则先清空之前的数据
+            let fnKey = 'unshift'; // 单曲添加到歌曲列表最前面
+            // 如果添加的是歌单，则先
             if (param.type=='list') {
-                fnKey = 'push';
-                this.commit('clearMusicList');
+                fnKey = 'push'; // 按顺序添加
+                this.commit('clearMusicList'); // 清空列表
             }
             if (Array.isArray(songData)) {
                 songData.forEach(song => {  
@@ -26,19 +26,23 @@ export default new Vuex.Store({
                     const cover = song.album.picUrl;
                     const singers = song.artists.map(item => {
                         return item.name;
-                    }).join('/');
+                    }).join('/')    ;
 
-                    const isInArray = musicList.some(item => {
-                        return item.id == id;
+                    // 重复的就删掉
+                    musicList.forEach((item, index) => {
+                        if (item.id == id) {
+                            musicList.splice(index, 1);
+                            return;
+                        }
                     });
-                    if (!isInArray) {
-                        state.musicList[fnKey]({
-                            id,
-                            name,
-                            cover,
-                            singers 
-                        });
-                    }
+                    
+                    // 将歌曲添加到列表
+                    state.musicList[fnKey]({
+                        id,
+                        name,
+                        cover,
+                        singers 
+                    });
                 })
                 this.commit('updateLocalStorage');
             }

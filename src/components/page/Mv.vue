@@ -12,7 +12,7 @@
             .title {font-size: 36/100rem;color: #323234;line-height: 1.4;}
             .summary {
                 font-size: 28/100rem;color: #a3a4a5;margin-top: 15/100rem;line-height: 1;overflow: hidden;
-                time  {padding: 0 40/100rem;}
+                time  {padding-right: 40/100rem;}
             }
             .content {
                 max-height: 300/100rem;overflow-y: auto;
@@ -68,7 +68,7 @@
 			<i class="back-arrow iconfont icon-arrow" @click="goBack"></i>
             <p class="title">{{mvInfo.name}}</p>
 		</header>
-        <div class="mv-detail-video">
+        <div class="mv-detail-video" v-if="mvUrl">
             <video :poster="mvInfo.cover" autoplay preload controls>
                 <source :src="mvUrl" type="video/mp4">
             </video>
@@ -77,7 +77,7 @@
         <div class="mv-detail-info">
             <h5 class="title">{{mvInfo.name}}</h5>
             <p class="summary">
-                <em>演唱：{{mvInfo.artistName}}</em>
+                <!-- <em>演唱：{{mvInfo.artistName}}</em> -->
                 <time>发布：{{mvInfo.publishTime}}</time>
                 <span>播放：{{mvInfo.playCount | formatNum}}</span>
             </p>
@@ -129,9 +129,16 @@ export default {
     },
     computed: {
         mvUrl () {
-            let prefix = '/api/mv/url?url=';
-            let url = this.mvInfo.brs['480'] ? this.mvInfo.brs['480'] : this.mvInfo.brs['240']
-            return prefix + url;
+            const mp4List = this.mvInfo.brs;
+            let tempArr = [];
+            Object.keys(mp4List).forEach(key => {
+                tempArr.push({
+                    key,
+                    url: mp4List[key]
+                })
+            });
+            const videoInfo = tempArr[tempArr.length-1];
+            return `/api/mv/url?url=${videoInfo.url}`;
         }
     },
     watch: {
