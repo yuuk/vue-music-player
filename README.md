@@ -47,9 +47,6 @@
 - [X] MV播放
 - [ ] mini播放器
 
-<<<<<<< HEAD
-## 安装&运行
-=======
 ## 项目接口
 
 基于【NeteaseCloudMusicApi】使用方法请遵循该项目文档
@@ -60,8 +57,7 @@ https://github.com/Binaryify/NeteaseCloudMusicApi
 1. 手机端无法自动播放音乐
 2. IOS端无法播放视频，不知道是否与.MP4格式有关
 
-## Build Setup
->>>>>>> 5a38bc0a8ba66f00e1c74de5105de876e6d13900
+## 安装&运行
 
 ``` bash
 # 下载项目到本地

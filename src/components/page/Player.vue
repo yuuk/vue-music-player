@@ -157,8 +157,8 @@
 
 <script>
 import { mapState } from 'vuex'
-import store from '../../store'
-import { shuffle } from '../../assets/js/util'
+import store from '@/store'
+import { shuffle } from '@/assets/js/util'
 import MusicList from '@/components/common/MusicList.vue'
 import ProgressBar from '@/components/common/ProgressBar.vue'
 
@@ -418,9 +418,6 @@ export default {
         },
         // 更新歌曲信息
         updateMusicInfo (song) {
-            if (!song.id) {
-                return;
-            }
             // 更新歌曲信息
             this.musicInfo.id = song.id;
             this.musicInfo.percent = 0;
@@ -447,7 +444,7 @@ export default {
         // 播放列表播放音乐的时候
         onPlayMusic ({song, index}) {
             this.updateMusicInfo(song);
-            this.togglePLaylist(false);
+            // this.togglePLaylist(false);
         },
         // 播放列表移除单个歌曲的时候
         onDelSong ({song, index}) {

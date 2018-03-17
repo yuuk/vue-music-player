@@ -64,8 +64,9 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
-import store from '../../store'
+import { mapState } from 'vuex'
+import { scrollTo } from '@/assets/js/util'
+import store from '@/store'
 export default {
 	name: 'MusicList',
 	data () {
@@ -95,18 +96,29 @@ export default {
 	},
 	watch: {
 		'isShow' (newVal) {
-			// 打开列表自动定位到当前播放的歌曲
 			if (newVal) {
-				const musicListRef = this.$refs.musicListRef;
-				const activeLi = musicListRef.querySelector('li.active');
-				if (activeLi) {
-					const diff = activeLi.clientHeight * 3;
-					musicListRef.scrollTop = activeLi.offsetTop - diff;
-				}
+				this.scrollToActive();	
+			}
+		},
+		'playIndex' (newVal, oldVal) {
+			if (newVal != oldVal) {
+				setTimeout(() => {
+					this.scrollToActive();
+				}, 0)	
 			}
 		}
 	},
 	methods: {
+		// 滚动到当前播放的歌曲
+		scrollToActive () {
+			const musicListRef = this.$refs.musicListRef;
+			const activeLi = musicListRef.querySelector('li.active');			
+			if (activeLi) {
+				const diff = activeLi.clientHeight * 4;
+				const distance = activeLi.offsetTop - diff;
+				scrollTo(musicListRef, distance, 250);
+			}
+		},
 		delSong (song, index) {
 			this.$emit('delSong', {song, index});
 		},
