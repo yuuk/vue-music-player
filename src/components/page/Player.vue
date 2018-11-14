@@ -260,7 +260,12 @@ export default {
                 const audioRef = this.$refs.audioRef;
                 audioRef.load();  
                 audioRef.oncanplay = () => {  
-                    audioRef.play();
+                    try {
+                        audioRef.play();
+                    } catch(e) {
+                        console.warn(e);
+                    }
+                    
                 }
             }, 0)
         },
@@ -300,7 +305,7 @@ export default {
                 this.$http({
                     timeout: 5000,
                     method:'get',
-                    url: '/api/music/url',
+                    url: '/api/song/url',
                     params: {
                         id: id
                     }

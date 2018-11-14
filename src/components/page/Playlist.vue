@@ -192,7 +192,7 @@ export default {
 			.then(response => {
                 const json = response.data;
                 if (json.code == 200) {
-                    this.detailInfo = json.result;
+                    this.detailInfo = json.playlist;
                 } else {
                     alert(json.msg);
                 }

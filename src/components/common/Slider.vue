@@ -15,7 +15,9 @@
 
 <template>
 	 <swiper :options="swiperOption" class="swiper-box" v-if="sliderItem.length">
-		<swiper-slide class="swiper-item" v-for="(slide, index) in sliderItem" :key="index"><a :title="slide.typeTitle"><img :src="slide.pic"></a></swiper-slide>		
+		<swiper-slide class="swiper-item" v-for="(slide, index) in sliderItem" :key="index">
+			<a :title="slide.typeTitle"><img :src="slide.imageUrl"></a>
+		</swiper-slide>		
 		<div class="swiper-pagination" slot="pagination"></div>
 	</swiper> 
 </template>

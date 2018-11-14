@@ -19,7 +19,7 @@
 			<p class="sort-num">{{index+1}}</p>
 			<div class="info">
 				<p class="name text-overflow">{{song.name}}</p>
-				<p class="desc text-overflow">{{song.artists | singers}} - {{song.album.name}}</p>
+				<p class="desc text-overflow">{{song.ar | singers}} - {{song.al.name}}</p>
 			</div>
 			<i class="playbtn iconfont icon-bofang"></i>
 		</div>

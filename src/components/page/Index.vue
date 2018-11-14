@@ -59,8 +59,8 @@
 
 <template>
 	<section class="page-index">
-		<myHeader></myHeader>
-		<Slider :sliderItem="banners"></Slider>
+		<myHeader />
+		<Slider :sliderItem="banners" />
 		<div class="hot-list" v-if="songList.length">
 			<h6 class="section-header">推荐歌单</h6>
 			<ul class="clearfix">
