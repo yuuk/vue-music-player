@@ -1,18 +1,19 @@
 <style lang="less">
-    .song-list {}
+.song-list {
+}
 </style>
 
 <template>
-    <div class="song-list">
-        <myHeader></myHeader>
-    </div>
+  <div class="song-list">
+    <myHeader />
+  </div>
 </template>
 
 <script>
-import myHeader from '@/components/common/Header.vue'
+import myHeader from '@/components/common/Header.vue';
 export default {
-    components: {
-		myHeader
-	},
-}
+  components: {
+    myHeader
+  }
+};
 </script>

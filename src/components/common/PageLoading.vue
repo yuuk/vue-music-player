@@ -1,11 +1,9 @@
-<style lang="less">
-
-</style>
+<style lang="less"></style>
 
 <template>
-	<div class="page-loading"><i class="loading-gif"></i></div>
+  <div class="page-loading">
+    <i class="loading-gif" />
+  </div>
 </template>
 
-<script>
-
-</script>
+<script></script>
