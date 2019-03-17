@@ -51,7 +51,7 @@
 			</div>
 		</section>
 	</div>
-	<pageLoading v-else></pageLoading>
+	<pageLoading v-else />
 </template>
 
 <script>
@@ -100,12 +100,13 @@ export default {
 		// 头部信息格式化（兼容歌单和歌曲）
 		formatInfo () {
 			let cover, type, name, user;
+			console.warn(this.info);
 			switch (this.commentType) {
 				case 'playlist':
-				cover = this.info.result.coverImgUrl;
+				cover = this.info.playlist.coverImgUrl;
 				type = '歌单';
-				name = this.info.result.name;
-				user = this.info.result.creator.nickname;
+				name = this.info.playlist.name;
+				user = this.info.playlist.creator.nickname;
 				break;
 
 				case 'music':

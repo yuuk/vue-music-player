@@ -77,7 +77,7 @@
 
 		<div class="new-song" v-if="newSong.length">
 			<h6 class="section-header">最新音乐</h6>
-			<Song :songList="newSong"></Song>
+			<Song :songList="newSong" />
 		</div>
 		
 		<div class="recommend-mv" v-if="mvList.length">
@@ -155,7 +155,7 @@ export default {
 			.then(response => {
 				const json = response.data;
 				if (json.code == 200) {
-					this.newSong = this.formatNewsong(json.result);
+					this.newSong = json.result.map(item => item.song);
 				}
 			});
 		},
@@ -173,11 +173,6 @@ export default {
 				if (json.code == 200) {
 					this.mvList = json.data;
 				}
-			});
-		},
-		formatNewsong (newSong) {
-			return newSong.map(item => {
-				return item.song
 			});
 		}
 	}

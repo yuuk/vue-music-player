@@ -121,10 +121,10 @@
                 </div>
                 <div class="toolbar">
                     <i class="iconfont" :class="[playModeInfo.cls]" @click="switchPlayMode"></i>
-                    <i class="iconfont icon-shangyiqu101" @click="swichMusic(-1)"></i>
+                    <i class="iconfont icon-shangyiqu101" @click="switchMusic(-1)"></i>
                     <i v-if="isLoading" class="iconfont icon-loading"></i>
                     <i v-else class="iconfont" :class="[isPlaying ? 'icon-zanting' : 'icon-bofang']" @click="togglePlay"></i>
-                    <i class="iconfont icon-xiayiqu101" @click="swichMusic(1)"></i>
+                    <i class="iconfont icon-xiayiqu101" @click="switchMusic(1)"></i>
                     <i class="iconfont icon-liebiao" @click="togglePLaylist(true)"></i>
                 </div>
             </div>
@@ -375,7 +375,7 @@ export default {
             const playMode = this.playMode;
             // 循环播放
             if (playMode == 0) {
-                this.swichMusic(1);
+                this.switchMusic(1);
             }
             // 单曲播放
             if (playMode == 1) {
@@ -437,7 +437,7 @@ export default {
             })
             .catch(e => {
                 // 请求出错，播放下一曲
-                this.swichMusic(1);
+                this.switchMusic(1);
             })
         },
         // 更新播放索引值
@@ -456,7 +456,7 @@ export default {
             store.commit('delMusicList', index); // 更新vuex
             //  删除的是正在播放的音乐，则播放下一曲
             if (this.musicInfo.id === song.id) {
-                this.swichMusic(0);
+                this.switchMusic(0);
             }
             this.updatePlayIndex(); // 更新索引
         },
@@ -467,7 +467,7 @@ export default {
             }
         },
         // 切换上一曲/下一曲 (-1 => 上一曲  1 => 下一曲)
-        swichMusic (type=0) {
+        switchMusic (type=0) {
             // 随机播放
             if (this.playMode === 2) {
                  this.shufflePlay();

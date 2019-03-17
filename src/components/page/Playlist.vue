@@ -139,7 +139,7 @@
         </header>
         <section class="playlist-body">
             <header class="header" @click="playAll"><i class="iconfont icon-bofang"></i>播放全部<span> (共{{detailInfo.trackCount}}首)</span></header>
-            <Song :songList="detailInfo.tracks"></Song>
+            <Song :songList="detailInfo.tracks" />
         </section>
         
         <transition name="fade">
@@ -157,7 +157,7 @@
             </div>
         </transition>
     </div>
-    <pageLoading v-else></pageLoading>
+    <pageLoading v-else />
 </template>
 
 <script>
@@ -192,6 +192,7 @@ export default {
 			.then(response => {
                 const json = response.data;
                 if (json.code == 200) {
+                    console.warn(json.playlist);
                     this.detailInfo = json.playlist;
                 } else {
                     alert(json.msg);

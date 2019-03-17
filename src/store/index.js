@@ -20,12 +20,11 @@ export default new Vuex.Store({
                 this.commit('clearMusicList'); // 清空列表
             }
             if (Array.isArray(songData)) {
-                console.log(songData);
                 songData.forEach(song => {  
                     const id = song.id;
                     const name = song.name;
-                    const cover = song.al.picUrl;
-                    const singers = song.ar.map(item => {
+                    const cover = song.album.picUrl;
+                    const singers = song.artists.map(item => {
                         return item.name;
                     }).join('/')    ;
 

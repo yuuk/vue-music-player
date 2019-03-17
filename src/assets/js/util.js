@@ -11,7 +11,7 @@ export function shuffle (arr) {
     _arr[i] = _arr[j]
     _arr[j] = t
     }
-    return _arr
+    return _arr;
 }
 
 
