@@ -164,16 +164,33 @@
 </style>
 
 <template>
-  <section class="mv-detail" v-if="mvInfo.id">
+  <section
+    class="mv-detail"
+    v-if="mvInfo.id"
+  >
     <header class="mv-detail-header">
-      <i class="back-arrow iconfont icon-arrow" @click="goBack" />
+      <i
+        class="back-arrow iconfont icon-arrow"
+        @click="goBack"
+      />
       <p class="title">
         {{ mvInfo.name }}
       </p>
     </header>
-    <div class="mv-detail-video" v-if="mvUrl">
-      <video :poster="mvInfo.cover" autoplay preload controls>
-        <source :src="mvUrl" type="video/mp4" />
+    <div
+      class="mv-detail-video"
+      v-if="mvUrl"
+    >
+      <video
+        :poster="mvInfo.cover"
+        autoplay
+        preload
+        controls
+      >
+        <source
+          :src="mvUrl"
+          type="video/mp4"
+        >
       </video>
     </div>
 
@@ -186,11 +203,18 @@
         <time>发布：{{ mvInfo.publishTime }}</time>
         <span>播放：{{ mvInfo.playCount | formatNum }}</span>
       </p>
-      <p class="content" v-if="mvInfo.desc" v-html="mvInfo.desc" />
+      <p
+        class="content"
+        v-if="mvInfo.desc"
+        v-html="mvInfo.desc"
+      />
     </div>
 
     <div class="mv-detail-widget">
-      <p :class="{ active: isLike }" @click="like">
+      <p
+        :class="{ active: isLike }"
+        @click="like"
+      >
         <i class="iconfont icon-iclikenormal" /><span>{{
           mvInfo.likeCount
         }}</span>
@@ -212,26 +236,35 @@
       </p>
     </div>
 
-    <div class="mv-detail-similar" v-if="similarMv.length">
+    <div
+      class="mv-detail-similar"
+      v-if="similarMv.length"
+    >
       <h6 class="header">
         相关推荐
       </h6>
       <ul class="body clearfix">
-        <li v-for="(item, index) in similarMv" :key="index">
+        <li
+          v-for="(item, index) in similarMv"
+          :key="index"
+        >
           <router-link :to="`/mv/${item.id}`">
             <p class="img">
-              <img :src="item.cover" alt="" />
-              <span
-                ><i class="iconfont icon-socialyoutubeoutline" />{{
-                  item.playCount | formatNum
-                }}</span
+              <img
+                :src="item.cover"
+                alt=""
               >
+              <span><i class="iconfont icon-socialyoutubeoutline" />{{
+                item.playCount | formatNum
+              }}</span>
             </p>
             <div class="summary">
               <p class="title">
                 {{ item.name }}
               </p>
-              <p class="creater">by {{ item.artistName }}</p>
+              <p class="creater">
+                by {{ item.artistName }}
+              </p>
             </div>
           </router-link>
         </li>
@@ -258,16 +291,8 @@ export default {
   },
   computed: {
     mvUrl() {
-      const mp4List = this.mvInfo.brs;
-      let tempArr = [];
-      Object.keys(mp4List).forEach(key => {
-        tempArr.push({
-          key,
-          url: mp4List[key]
-        });
-      });
-      const videoInfo = tempArr[tempArr.length - 1];
-      return `/api/mv/url?url=${videoInfo.url}`;
+      const list = this.mvInfo.brs;
+      return list['1080'] || list['720'] || list['480'] || list['240'];
     }
   },
   watch: {
@@ -284,11 +309,11 @@ export default {
       this.getDetail();
       this.getSimilarMv();
     },
-    // 获取banner数据
+    // 获取mv数据
     getDetail() {
       this.$http({
         method: 'get',
-        url: '/api/mv',
+        url: '/api/mv/detail',
         params: {
           mvid: this.id
         }
@@ -299,6 +324,7 @@ export default {
         }
       });
     },
+
     getSimilarMv() {
       this.$http({
         method: 'get',

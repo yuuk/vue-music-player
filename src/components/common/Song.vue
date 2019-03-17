@@ -53,7 +53,7 @@
           {{ song.name }}
         </p>
         <p class="desc text-overflow">
-          {{ song.artists | singers }} - {{ song.album.name }}
+          {{ song | artist }} - {{ song | album }}
         </p>
       </div>
       <i class="playbtn iconfont icon-bofang" />

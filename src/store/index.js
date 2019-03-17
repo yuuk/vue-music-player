@@ -23,12 +23,10 @@ export default new Vuex.Store({
         songData.forEach(song => {
           const id = song.id;
           const name = song.name;
-          const cover = song.album.picUrl;
-          const singers = song.artists
-            .map(item => {
-              return item.name;
-            })
-            .join('/');
+          const album = song.album || song.al;
+          const artists = song.artists || song.ar;
+          const cover = album.picUrl;
+          const singers = artists.map(item => item.name).join(' / ');
 
           // 重复的就删掉
           musicList.forEach((item, index) => {

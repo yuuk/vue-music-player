@@ -21,7 +21,7 @@
       "src/**/*.{vue,js}": [
         "npm run lint:js",
         "npm run prettier",
-        "git add --force"
+        "git add ."
       ]
     }
   },

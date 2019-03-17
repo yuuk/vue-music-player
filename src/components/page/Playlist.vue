@@ -301,14 +301,20 @@ fade-enter-active,
         :style="{ backgroundImage: `url(${detailInfo.coverImgUrl})` }"
       />
       <div class="playlist-header-top">
-        <i class="back-arrow iconfont icon-arrow" @click="goBack" />
+        <i
+          class="back-arrow iconfont icon-arrow"
+          @click="goBack"
+        />
         <p class="title">
           歌单
         </p>
       </div>
       <div class="playlist-header-info clearfix">
-        <div class="cover" @click="toggleDetail(true)">
-          <img :src="detailInfo.coverImgUrl" />
+        <div
+          class="cover"
+          @click="toggleDetail(true)"
+        >
+          <img :src="detailInfo.coverImgUrl">
           <i class="playcount i-earphone">{{
             detailInfo.playCount | formatNum
           }}</i>
@@ -318,7 +324,7 @@ fade-enter-active,
           {{ detailInfo.name }}
         </div>
         <div class="userinfo clearfix">
-          <img :src="detailInfo.creator.avatarUrl" />
+          <img :src="detailInfo.creator.avatarUrl">
           <span>{{ detailInfo.creator.nickname }}</span>
         </div>
       </div>
@@ -340,7 +346,10 @@ fade-enter-active,
       </div>
     </header>
     <section class="playlist-body">
-      <header class="header" @click="playAll">
+      <header
+        class="header"
+        @click="playAll"
+      >
         <i class="iconfont icon-bofang" />播放全部
         <span>(共{{ detailInfo.trackCount }}首)</span>
       </header>
@@ -348,7 +357,11 @@ fade-enter-active,
     </section>
 
     <transition name="fade">
-      <div class="playlist-detail" v-show="showDetail" transiton="fade">
+      <div
+        class="playlist-detail"
+        v-show="showDetail"
+        transiton="fade"
+      >
         <i
           class="playlist-detail-close iconfont icon-close"
           @click="toggleDetail(false)"
@@ -358,13 +371,22 @@ fade-enter-active,
           :style="{ backgroundImage: `url(${detailInfo.coverImgUrl})` }"
         />
         <div class="playlist-detail-wrap">
-          <img class="playlist-detail-cover" :src="detailInfo.coverImgUrl" />
+          <img
+            class="playlist-detail-cover"
+            :src="detailInfo.coverImgUrl"
+          >
           <h6 class="playlist-detail-title">
             {{ detailInfo.name }}
           </h6>
-          <div class="playlist-detail-tags" v-if="detailInfo.tags.length">
+          <div
+            class="playlist-detail-tags"
+            v-if="detailInfo.tags.length"
+          >
             <em>标签：</em>
-            <span v-for="(tag, index) in detailInfo.tags" :key="index">{{
+            <span
+              v-for="(tag, index) in detailInfo.tags"
+              :key="index"
+            >{{
               tag
             }}</span>
           </div>
@@ -410,7 +432,6 @@ export default {
       }).then(response => {
         const json = response.data;
         if (json.code == 200) {
-          console.warn(json.playlist);
           this.detailInfo = json.playlist;
         } else {
           alert(json.msg);

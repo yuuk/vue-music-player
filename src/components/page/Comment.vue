@@ -74,12 +74,24 @@
 <template>
   <div v-if="info.code == 200 && commentInfo.total">
     <div class="comment-top">
-      <i class="back-arrow iconfont icon-arrow" @click="goBack" />
-      <p class="title">评论 ({{ commentInfo.total }})</p>
+      <i
+        class="back-arrow iconfont icon-arrow"
+        @click="goBack"
+      />
+      <p class="title">
+        评论 ({{ commentInfo.total }})
+      </p>
     </div>
 
-    <header class="comment-header clearfix" @click="goDetail">
-      <img class="cover" :src="formatInfo.cover" alt />
+    <header
+      class="comment-header clearfix"
+      @click="goDetail"
+    >
+      <img
+        class="cover"
+        :src="formatInfo.cover"
+        alt
+      >
       <p class="name">
         <span class="typetag">{{ formatInfo.type }}</span>
         {{ formatInfo.name }}
@@ -91,7 +103,10 @@
       <i class="go-arrow iconfont icon-arrow" />
     </header>
 
-    <section class="comment-body" v-if="commentInfo.hotComments.length">
+    <section
+      class="comment-body"
+      v-if="commentInfo.hotComments.length"
+    >
       <header class="comment-body-header">
         精彩评论
       </header>
@@ -100,7 +115,10 @@
       </div>
     </section>
 
-    <section class="comment-body" v-if="commentInfo.comments.length">
+    <section
+      class="comment-body"
+      v-if="commentInfo.comments.length"
+    >
       <header class="comment-body-header">
         最新评论
       </header>
@@ -149,7 +167,7 @@ export default {
           break;
 
         case 'mv':
-          url = '/api/mv?mvid=';
+          url = '/api/mv/detail?mvid=';
           break;
       }
       return url + this.commentId;
@@ -157,7 +175,6 @@ export default {
     // 头部信息格式化（兼容歌单和歌曲）
     formatInfo() {
       let cover, type, name, user;
-      console.warn(this.info);
       switch (this.commentType) {
         case 'playlist':
           cover = this.info.playlist.coverImgUrl;

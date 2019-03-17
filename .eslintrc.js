@@ -8,8 +8,8 @@ module.exports = {
     // override/add rules settings here, such as:
     'vue/no-unused-vars': 'error',
     //强制使用单引号
-    'quotes': ['error', 'single'],
+    quotes: ['error', 'single'],
     //强制使用分号结尾
-    'semi': ['error', 'always']
+    semi: ['error', 'always']
   }
 };

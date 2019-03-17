@@ -23,13 +23,14 @@ Vue.filter('formatNum', num => {
 });
 
 // 歌手格式化
-Vue.filter('singers', singerArr => {
-  const singerStr = singerArr
-    .map(item => {
-      return item.name;
-    })
-    .join('/');
-  return `${singerStr}`;
+Vue.filter('artist', song => {
+  const artists = song.artists || song.ar || [];
+  return artists.map(item => item.name).join(' / ');
+});
+
+Vue.filter('album', song => {
+  const album = song.album || song.al || {};
+  return album.name;
 });
 
 Vue.filter('formatTime', time => {
